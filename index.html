@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Stacks and Queues</title>
+    <!-- Link to Google Fonts for a modern font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #D0ECE7; /* Soft Mint Green */
+            color: #333;
+            font-size: 18px; /* Increased font size for body text */
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 36px; /* Larger font size for the main title */
+        }
+        .container {
+            padding: 20px;
+            border: 2px solid #2c3e50;
+            border-radius: 10px;
+            background-color: #ecf0f1;
+            display: inline-block;
+            max-width: 700px;
+            margin-top: 50px;
+            font-size: 18px; /* Increased font size for container text */
+        }
+        .operation {
+            margin-top: 20px;
+        }
+        .operation input, .operation button {
+            padding: 12px;
+            font-size: 18px; /* Larger font size for input and button */
+            margin: 5px;
+        }
+        .items {
+            margin-top: 20px;
+            min-height: 100px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+        .item {
+            background-color: #5F9EA0; /* Teal Color */
+            color: #333;
+            padding: 12px;
+            margin: 5px;
+            border-radius: 5px;
+            opacity: 0;
+            transform: translateX(100px);
+            animation: slideIn 0.6s ease-out forwards, scaleIn 0.5s ease-out forwards;
+            font-size: 20px; /* Larger font size for items */
+        }
+        .item.removed {
+            animation: slideOut 0.6s ease-out forwards, scaleOut 0.5s ease-out forwards;
+        }
+        button {
+            margin-top: 20px;
+            padding: 15px 22px;
+            font-size: 18px; /* Increased font size for button */
+            background-color: #5F9EA0; /* Teal Color */
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4C7881; /* Darker teal for hover effect */
+        }
+        .intro {
+            text-align: left;
+            max-width: 700px;
+            margin: 30px auto;
+        }
+        ul {
+            text-align: left;
+        }
+        .hidden {
+            display: none;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.5);
+            }
+            to {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes scaleOut {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Introduction to Stacks and Queues</h1>
+
+    <!-- Introduction Section -->
+    <div class="intro" id="introPage">
+        <h2>What is a Stack?</h2>
+        <ul>
+            <li>A <strong>stack</strong> is a linear data structure that follows the <em>Last In, First Out (LIFO)</em> principle.</li>
+            <li>Think of it like a stack of plates where the last plate placed on top is the first one removed.</li>
+            <li>Common operations include:
+                <ul>
+                    <li><strong>Push</strong>: Add an element to the top of the stack.</li>
+                    <li><strong>Pop</strong>: Remove the top element from the stack.</li>
+                    <li><strong>Overflow</strong>: It happens when you try to add an element to a stack that is already full.</li>
+                    <li><strong>Underflow</strong>: It happens when you try to remove an element from an empty stack.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h2>What is a Queue?</h2>
+        <ul>
+            <li>A <strong>queue</strong> is a linear data structure that follows the <em>First In, First Out (FIFO)</em> principle.</li>
+            <li>Think of it like a line at a ticket counter where the person who arrives first is served first.</li>
+            <li>Common operations include:
+                <ul>
+                    <li><strong>Enqueue</strong>: Add an element to the end of the queue.</li>
+                    <li><strong>Dequeue</strong>: Remove the element from the front of the queue.</li>
+                     <li><strong>Overflow</strong>: It happens when you try to add an element to a queue that is already full.</li>
+                    <li><strong>Underflow</strong>: It happens when you try to remove an element from an empty queue.</li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <p>Stacks and queues are essential tools in computer science used to manage data efficiently. Now, try the interactive demo to explore how they work!</p>
+
+    <!-- Button to Start the Demo (Only on the intro page) -->
+    <button onclick="startDemo()">Start Demo</button>
+
+    <!-- Demo Section (Initially Hidden) -->
+    <div class="container hidden" id="demoPage">
+        <h2>Stack (LIFO)</h2>
+        <div class="operation">
+            <input type="text" id="stackInput" placeholder="Enter value">
+            <button onclick="pushToStack()">Push</button>
+            <button onclick="popFromStack()">Pop</button>
+        </div>
+        <div id="stackItems" class="items"></div>
+        <div id="stackMessage"></div>
+
+        <h2>Queue (FIFO)</h2>
+        <div class="operation">
+            <input type="text" id="queueInput" placeholder="Enter value">
+            <button onclick="enqueueToQueue()">Enqueue</button>
+            <button onclick="dequeueFromQueue()">Dequeue</button>
+        </div>
+        <div id="queueItems" class="items"></div>
+        <div id="queueMessage"></div>
+    </div>
+
+    <script>
+        const maxSize = 5;
+
+        // Function to switch to Demo Section
+        function startDemo() {
+            // Hide the intro page and show the demo page
+            document.getElementById('introPage').classList.add('hidden');
+            document.getElementById('demoPage').classList.remove('hidden');
+            // Hide the Start Demo button after it's clicked
+            document.querySelector('button').style.display = 'none';
+        }
+
+        // Stack implementation
+        let stack = [];
+        const stackItems = document.getElementById('stackItems');
+        const stackInput = document.getElementById('stackInput');
+        const stackMessage = document.getElementById('stackMessage');
+
+        function updateStack() {
+            stackItems.innerHTML = '';
+            stack.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('item');
+                div.textContent = item;
+                stackItems.appendChild(div);
+            });
+        }
+
+        function pushToStack() {
+            const value = stackInput.value.trim();
+            if (value === "") {
+                stackMessage.textContent = "Please enter a value.";
+                stackMessage.style.color = "red";
+            } else if (stack.length >= maxSize) {
+                stackMessage.textContent = "Overflow: Stack is full!";
+                stackMessage.style.color = "red";
+            } else {
+                stack.push(value);
+                updateStack();
+                stackMessage.textContent = '';
+                stackInput.value = ''; // Clear the input field
+            }
+        }
+
+        function popFromStack() {
+            if (stack.length === 0) {
+                stackMessage.textContent = "Underflow: Stack is empty!";
+                stackMessage.style.color = "red";
+            } else {
+                const poppedItem = stack.pop();
+                const items = stackItems.querySelectorAll('.item');
+                const lastItem = items[items.length - 1];
+                lastItem.classList.add('removed'); // Add animation class for removal
+                setTimeout(updateStack, 600); // Wait for animation to finish before updating
+                stackMessage.textContent = '';
+            }
+        }
+
+        // Queue implementation
+        let queue = [];
+        const queueItems = document.getElementById('queueItems');
+        const queueInput = document.getElementById('queueInput');
+        const queueMessage = document.getElementById('queueMessage');
+
+        function updateQueue() {
+            queueItems.innerHTML = '';
+            queue.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('item');
+                div.textContent = item;
+                queueItems.appendChild(div);
+            });
+        }
+
+        function enqueueToQueue() {
+            const value = queueInput.value.trim();
+            if (value === "") {
+                queueMessage.textContent = "Please enter a value.";
+                queueMessage.style.color = "red";
+            } else if (queue.length >= maxSize) {
+                queueMessage.textContent = "Overflow: Queue is full!";
+                queueMessage.style.color = "red";
+            } else {
+                queue.push(value);
+                updateQueue();
+                queueMessage.textContent = '';
+                queueInput.value = ''; // Clear the input field
+            }
+        }
+
+        function dequeueFromQueue() {
+            if (queue.length === 0) {
+                queueMessage.textContent = "Underflow: Queue is empty!";
+                queueMessage.style.color = "red";
+            } else {
+                const dequeuedItem = queue.shift();
+                const items = queueItems.querySelectorAll('.item');
+                const firstItem = items[0];
+                firstItem.classList.add('removed'); // Add animation class for removal
+                setTimeout(updateQueue, 600); // Wait for animation to finish before updating
+                queueMessage.textContent = '';
+            }
+        }
+    </script>
+
+</body>
+</html>
